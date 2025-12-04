@@ -1007,39 +1007,7 @@
                 // Show success message
                 const successMsg = form.querySelector('.success-message');
                 successMsg.style.display = 'block';
-                
-                // In a real application, you would send this data to a server
-                fetch("link app google sheet", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        fullName: form.fullName.value,
-        email: form.email.value,
-        phone: form.phone.value,
-        company: form.company.value,
-        position: form.position.value,
-        experience: form.experience.value,
-        goal: form.goal.value,
-        package: form.package.value,
-        referralCode: form.referralCode.value
-    })
-})
-.then(res => res.json())
-.then(result => {
-    const successMsg = form.querySelector('.success-message');
-    successMsg.style.display = 'block';
-
-    setTimeout(() => {
-        form.reset();
-        successMsg.style.display = 'none';
-    }, 3000);
-})
-.catch(err => {
-    alert("Có lỗi xảy ra, vui lòng thử lại!");
-});
-                
+                 
                 // Reset form after 3 seconds
                 setTimeout(() => {
                     form.reset();
@@ -1116,23 +1084,25 @@ document.getElementById('registration-form').addEventListener('submit', function
         };
 
         fetch("https://script.google.com/macros/s/AKfycbzmN1jTtnGcmweGFY01YaoBkJJTMt-o9Ot8x8phecbZ6bMSUxhUwStL0unXvaD6Zs2x/exec", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(result => {
-            const successMsg = form.querySelector('.success-message');
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-                form.reset();
-                successMsg.style.display = 'none';
-            }, 3000);
-        })
-        .catch(err => {
-            alert("Có lỗi xảy ra khi gửi, vui lòng thử lại!");
-        });
-    }
+    method: "POST",
+    mode: "no-cors", 
+    headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+})
+.then(() => {
+    const successMsg = form.querySelector('.success-message');
+    successMsg.style.display = 'block';
+    setTimeout(() => {
+        form.reset();
+        successMsg.style.display = 'none';
+    }, 3000);
+})
+.catch(err => {
+    console.error("Lỗi gửi dữ liệu:", err);
+    alert("Gửi thất bại, vui lòng thử lại!");
+});
 });
 </script>
 
