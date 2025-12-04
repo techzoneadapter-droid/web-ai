@@ -1007,7 +1007,7 @@
                 // Show success message
                 const successMsg = form.querySelector('.success-message');
                 successMsg.style.display = 'block';
-                 
+                
                 // Reset form after 3 seconds
                 setTimeout(() => {
                     form.reset();
@@ -1083,26 +1083,26 @@ document.getElementById('registration-form').addEventListener('submit', function
             referralCode: form.referralCode.value
         };
 
-        fetch("https://script.google.com/macros/s/AKfycbzmN1jTtnGcmweGFY01YaoBkJJTMt-o9Ot8x8phecbZ6bMSUxhUwStL0unXvaD6Zs2x/exec", {
+        const formData = new FormData(form);
+
+fetch("https://script.google.com/macros/s/AKfycbzmN1jTtnGcmweGFY01YaoBkJJTMt-o9Ot8x8phecbZ6bMSUxhUwStL0unXvaD6Zs2x/exec", {
     method: "POST",
-    mode: "no-cors", 
-    headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-    },
-    body: JSON.stringify(payload)
+    body: formData
 })
-.then(() => {
-    const successMsg = form.querySelector('.success-message');
-    successMsg.style.display = 'block';
-    setTimeout(() => {
-        form.reset();
-        successMsg.style.display = 'none';
-    }, 3000);
-})
-.catch(err => {
-    console.error("Lỗi gửi dữ liệu:", err);
-    alert("Gửi thất bại, vui lòng thử lại!");
-});
+
+        .then(res => res.json())
+        .then(result => {
+            const successMsg = form.querySelector('.success-message');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                form.reset();
+                successMsg.style.display = 'none';
+            }, 3000);
+        })
+        .catch(err => {
+            alert("Có lỗi xảy ra khi gửi, vui lòng thử lại!");
+        });
+    }
 });
 </script>
 
