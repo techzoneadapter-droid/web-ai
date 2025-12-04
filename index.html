@@ -1038,13 +1038,21 @@ const googleSheet = fetch(
 //Chờ 2 API xử lý xong
 Promise.all([googleSheet, crmPush])
     .then(() => {
+        // Gửi thành công, hiện thông báo
         const successMsg = form.querySelector('.success-message');
         successMsg.style.display = 'block';
 
+        // CHỈ reset form SAU KHI ĐÃ GỬI THÀNH CÔNG VÀ CHỜ 3 GIÂY
         setTimeout(() => {
             form.reset();
             successMsg.style.display = 'none';
         }, 3000);
+    })
+    .catch(err => {
+        // Nếu có lỗi, BÁO LỖI VÀ KHÔNG reset
+        alert("Lỗi khi gửi dữ liệu: " + err);
+    });
+
     })
     .catch(err => {
         alert("Lỗi: " + err);
