@@ -1057,13 +1057,7 @@ Promise.all([googleSheet, crmPush])
     .catch(err => {
         alert("Lỗi: " + err);
     });
-                
-                // Reset form after 3 seconds
-                setTimeout(() => {
-                    form.reset();
-                    successMsg.style.display = 'none';
-                }, 3000);
-            }
+        }
         });
 
         // Smooth scroll for anchor links
