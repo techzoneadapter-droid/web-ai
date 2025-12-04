@@ -1010,6 +1010,7 @@
                 
                 // In a real application, you would send this data to a server
                 // Payload chung
+// Payload JSON cho Google Sheet
 const payload = {
     fullName: form.fullName.value,
     email: form.email.value,
@@ -1022,9 +1023,9 @@ const payload = {
     referralCode: form.referralCode.value
 };
 
-//Gửi về Google Sheet
+// Gửi về Google Sheets
 const googleSheet = fetch(
-    "link google sheet app", 
+    "https://script.google.com/macros/s/AKfycbzmN1jTtnGcmweGFY01YaoBkJJTMt-o9Ot8x8phecbZ6bMSUxhUwStL0unXvaD6Zs2x/exec",
     {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1032,39 +1033,35 @@ const googleSheet = fetch(
     }
 );
 
-//Gửi về CRM
+//Gửi về CRM R1AI (bắt buộc dạng FormData)
+const crmForm = new FormData();
+crmForm.append("name", form.fullName.value);
+crmForm.append("email", form.email.value);
+crmForm.append("phonenumber", form.phone.value);
+crmForm.append("company", form.company.value);
+
 const crmPush = fetch(
-    "CRM API URL",
+    "https://crm.r1ai.vn/forms/wtl/396dd384ec7b17af5f25650aa29752ec",
     {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: crmForm
     }
 );
 
+//Chờ 2 API xử lý xong
 Promise.all([googleSheet, crmPush])
-    .then(async responses => {
-        const sheetResult = await responses[0].json();
-        const crmResult = await responses[1].json();
+    .then(() => {
+        const successMsg = form.querySelector('.success-message');
+        successMsg.style.display = 'block';
 
-        if (sheetResult.result === "success") {
-            const successMsg = form.querySelector('.success-message');
-            successMsg.style.display = 'block';
-
-            setTimeout(() => {
-                form.reset();
-                successMsg.style.display = 'none';
-            }, 3000);
-        } else {
-            alert("Google Sheet error: " + sheetResult.message);
-        }
-
-        console.log("CRM response:", crmResult);
+        setTimeout(() => {
+            form.reset();
+            successMsg.style.display = 'none';
+        }, 3000);
     })
     .catch(err => {
-        alert("Lỗi hệ thống: " + err);
+        alert("Lỗi: " + err);
     });
-
                 
                 // Reset form after 3 seconds
                 setTimeout(() => {
