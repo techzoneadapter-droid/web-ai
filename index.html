@@ -1033,20 +1033,7 @@ const googleSheet = fetch(
     }
 );
 
-//Gửi về CRM R1AI (bắt buộc dạng FormData)
-const crmForm = new FormData();
-crmForm.append("name", form.fullName.value);
-crmForm.append("email", form.email.value);
-crmForm.append("phonenumber", form.phone.value);
-crmForm.append("company", form.company.value);
 
-const crmPush = fetch(
-    "https://crm.r1ai.vn/forms/wtl/396dd384ec7b17af5f25650aa29752ec",
-    {
-        method: "POST",
-        body: crmForm
-    }
-);
 
 //Chờ 2 API xử lý xong
 Promise.all([googleSheet, crmPush])
