@@ -42,12 +42,19 @@ jobs:
           (root/"manifest.json").write_text(json.dumps(assets,indent=2),encoding="utf-8")
 
           PY
-      - name: Upload group A (StoryFlow, VietTruyen, PageBot)
+      - name: Upload StoryFlow installer separately
         uses: actions/upload-artifact@v4
         with:
-          name: WIN-Installers-A-20261015
+          name: WIN-Installers-StoryFlow-20261015
+          path: installers/01_StoryFlow/
+          retention-days: 2
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload VietTruyen and PageBot
+        uses: actions/upload-artifact@v4
+        with:
+          name: WIN-Installers-VietTruyen-PageBot-20261015
           path: |
-            installers/01_StoryFlow/
             installers/02_VietTruyen/
             installers/03_PageBot/
             installers/manifest.json
