@@ -42,11 +42,27 @@ jobs:
           (root/"manifest.json").write_text(json.dumps(assets,indent=2),encoding="utf-8")
 
           PY
-      - name: Upload collected installers for backup
+      - name: Upload group A (StoryFlow, VietTruyen, PageBot)
         uses: actions/upload-artifact@v4
         with:
-          name: WIN-Installers-20261015
-          path: installers/
+          name: WIN-Installers-A-20261015
+          path: |
+            installers/01_StoryFlow/
+            installers/02_VietTruyen/
+            installers/03_PageBot/
+            installers/manifest.json
+          retention-days: 2
+          compression-level: 0
+          if-no-files-found: error
+      - name: Upload group B (other 4 desktop apps)
+        uses: actions/upload-artifact@v4
+        with:
+          name: WIN-Installers-B-20261015
+          path: |
+            installers/04_FB_Cookie/
+            installers/05_AKMaster/
+            installers/06_Vibaocode/
+            installers/07_BPet/
           retention-days: 2
           compression-level: 0
           if-no-files-found: error
